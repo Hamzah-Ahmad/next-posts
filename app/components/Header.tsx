@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 
 import AuthButton from "./AuthButton";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/utils/authOptions";
 
 const Header = async () => {
   const session = await getServerSession(authOptions);
