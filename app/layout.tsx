@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthProvider from "./context/AuthProvider";
 import Header from "./components/Header";
+import cn from "classnames";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Header />
-          {children}
+          <div className="max-w-[1440px] m-auto mt-20">{children}</div>
         </AuthProvider>
       </body>
     </html>

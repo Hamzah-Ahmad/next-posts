@@ -21,6 +21,7 @@ export const Editor = ({ handleChange }: EditorProps) => {
     <DynamicQuill
       onChange={handleChange}
       theme="snow"
+      className="min-h-96"
       modules={{
         toolbar: [
           [{ header: [1, 2, false] }],
