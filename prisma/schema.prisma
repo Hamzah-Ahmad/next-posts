@@ -37,3 +37,11 @@ model Account {
 
   @@unique([provider, providerAccountId])
 }
+
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  content   String  @db.VarChar(10000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -5,7 +5,10 @@ import "react-quill/dist/quill.snow.css";
 
 const DynamicQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-export const Editor = () => {
+type EditorProps = {
+  handleChange?: (str: string) => void;
+};
+export const Editor = ({ handleChange }: EditorProps) => {
   const [isMoutned, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -16,7 +19,7 @@ export const Editor = () => {
 
   return (
     <DynamicQuill
-      onChange={(e) => console.log(e)}
+      onChange={handleChange}
       theme="snow"
       modules={{
         toolbar: [
