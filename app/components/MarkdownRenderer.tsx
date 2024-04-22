@@ -9,14 +9,6 @@ type MarkdownRendererProps = {
   content: string;
 };
 const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
-  const [isMoutned, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMoutned) return <div />;
-
   return (
     <DynamicQuill
       readOnly

@@ -10,13 +10,6 @@ type EditorProps = {
   defaultValue?: string;
 };
 export const Editor = ({ handleChange, defaultValue = "" }: EditorProps) => {
-  const [isMoutned, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMoutned) return <div />;
 
   return (
     <DynamicQuill
