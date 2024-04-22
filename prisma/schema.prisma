@@ -42,14 +42,7 @@ model Post {
   id        String   @id @default(uuid())
   title     String
   content   String
-  tags      Tags[]
+  tags      String[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum Tags {
-  NEWS
-  TECHNOLOGY
-  ENTERTAINMENT
-  CODING
 }

@@ -1,7 +1,7 @@
 import { Post } from "@prisma/client";
 import React from "react";
 
-const PostsResults = ({ posts }: { posts: Post[] }) => {
+const PostList = ({ posts }: { posts: Post[] }) => {
   return (
     <div>
       {posts.map((post) => (
@@ -11,4 +11,4 @@ const PostsResults = ({ posts }: { posts: Post[] }) => {
   );
 };
 
-export default PostsResults;
+export default PostList;
