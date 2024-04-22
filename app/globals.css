@@ -44,6 +44,11 @@
 
 .renderer .ql-editor {
   padding: 12px 0 !important;
+  min-height: max-content;
+}
+
+.ql-editor {
+  min-height: 200px;
 }
 
 /* .renderer .ql-editor p {

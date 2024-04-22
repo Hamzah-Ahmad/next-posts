@@ -15,8 +15,8 @@ export const Editor = ({ handleChange, defaultValue = "" }: EditorProps) => {
     <DynamicQuill
       onChange={handleChange}
       theme="snow"
-      className="min-h-96"
       defaultValue={defaultValue}
+      style={{marginBottom: "48px"}}
       modules={{
         toolbar: [
           [{ header: [1, 2, false] }],
