@@ -7,6 +7,7 @@ import { ZodFormattedError } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import { revalidatePath } from "next/cache";
+import { EditPostSchema, EditPostType } from "./schemas/EditPostSchema";
 
 export async function createPost(data: CreatePostType): Promise<
   | {
@@ -48,6 +49,45 @@ export async function createPost(data: CreatePostType): Promise<
   redirect(`/post/${newPostId}`);
 }
 
+export async function editPost(
+  postId: string,
+  data: EditPostType
+): Promise<
+  | {
+      success: boolean;
+      error:
+        | string
+        | ZodFormattedError<{ title: string; content: string }, string>;
+    }
+  | undefined
+> {
+  const session = await getServerSession(authOptions);
+  if (!session?.user.id) {
+    return { success: false, error: "Please login to create a post" };
+  }
+  const parseResult = EditPostSchema.safeParse(data); //Validating backend in addition to the RHF frontend form validation
+
+  if (!parseResult.success) {
+    return { success: false, error: parseResult.error.format() };
+  }
+
+  try {
+    await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data,
+    });
+  } catch (err: any) {
+    if (err.code === "P2025") {
+      return { success: false, error: "Post not found" };
+    }
+    return { success: false, error: "Something went wrong" };
+  }
+
+  redirect(`/post/${postId}`);
+}
+
 export async function addComment(
   postId: any,
   prevState: any,
@@ -84,5 +124,5 @@ export async function addComment(
     return { success: false, error: "Something went wrong" };
   }
 
-  revalidatePath(`/post/${postId}`)
+  revalidatePath(`/post/${postId}`);
 }

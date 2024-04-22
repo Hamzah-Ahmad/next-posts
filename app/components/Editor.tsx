@@ -7,8 +7,9 @@ const DynamicQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 type EditorProps = {
   handleChange?: (str: string) => void;
+  defaultValue?: string;
 };
-export const Editor = ({ handleChange }: EditorProps) => {
+export const Editor = ({ handleChange, defaultValue = "" }: EditorProps) => {
   const [isMoutned, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export const Editor = ({ handleChange }: EditorProps) => {
       onChange={handleChange}
       theme="snow"
       className="min-h-96"
+      defaultValue={defaultValue}
       modules={{
         toolbar: [
           [{ header: [1, 2, false] }],
