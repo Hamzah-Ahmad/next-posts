@@ -18,6 +18,8 @@ model User {
   image         String?
   emailVerified String?
   accounts      Account[]
+
+  posts Post[]
 }
 
 model Account {
@@ -45,4 +47,6 @@ model Post {
   tags      String[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
