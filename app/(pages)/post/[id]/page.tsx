@@ -15,7 +15,7 @@ export async function generateStaticParams() {
     },
   });
 
-  return posts.map((post) => post.id);
+  return posts.map((post) => ({ id: post.id }));
 }
 const PostPage = async ({ params }: { params: { id: string } }) => {
   const post = await getPost(params.id);
