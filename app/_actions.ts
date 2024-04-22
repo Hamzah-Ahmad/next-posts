@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { ZodFormattedError } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
+import { revalidatePath } from "next/cache";
 
 export async function createPost(data: CreatePostType): Promise<
   | {
@@ -45,4 +46,43 @@ export async function createPost(data: CreatePostType): Promise<
   }
 
   redirect(`/post/${newPostId}`);
+}
+
+export async function addComment(
+  postId: any,
+  prevState: any,
+  formData: FormData
+) {
+  const session = await getServerSession(authOptions);
+  const commentText = formData.get("content");
+  if (!commentText || typeof commentText !== "string") {
+    return { success: false, error: "Please login to create a post" };
+  }
+  if (!session?.user.id) {
+    return { success: false, error: "Please login to create a post" };
+  }
+  if (!postId) {
+    return { success: false, error: "Post Not Found" };
+  }
+
+  try {
+    await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        comments: {
+          create: {
+            content: commentText,
+            commenterId: session.user.id,
+          },
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return { success: false, error: "Something went wrong" };
+  }
+
+  revalidatePath(`/post/${postId}`)
 }

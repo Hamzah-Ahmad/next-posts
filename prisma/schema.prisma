@@ -19,7 +19,8 @@ model User {
   emailVerified String?
   accounts      Account[]
 
-  posts Post[]
+  posts   Post[]
+  Comment Comment[]
 }
 
 model Account {
@@ -49,4 +50,14 @@ model Post {
   updatedAt DateTime @updatedAt
   authorId  String
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments Comment[]
+}
+
+model Comment {
+  id          String   @id @default(uuid())
+  content     String
+  createdAt   DateTime @default(now())
+  commenterId String
+  commenter   User     @relation(fields: [commenterId], references: [id], onDelete: Cascade)
+  posts Post[]
 }
