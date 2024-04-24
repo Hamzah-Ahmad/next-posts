@@ -36,7 +36,7 @@ const CreatePostForm = () => {
           className="mb-10 text-4xl w-full outline-0 text-slate-700"
         />
         <Editor handleChange={(val: string) => setValue("content", val)} />
-        <button>Submit</button>
+        <button className="mt-10">Submit</button>
       </form>
     </>
   );

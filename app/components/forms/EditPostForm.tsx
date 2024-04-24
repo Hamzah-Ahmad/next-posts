@@ -36,7 +36,7 @@ const EditPostForm = ({ post }: { post: Post }) => {
           handleChange={(val: string) => setValue("content", val)}
           defaultValue={post.content}
         />
-        <button>Submit</button>
+        <button className="mt-10">Submit</button>
       </form>
     </>
   );

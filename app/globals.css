@@ -48,7 +48,8 @@
 }
 
 .ql-editor {
-  min-height: 200px;
+  min-height: 215px;
+  max-height: 215px;
 }
 
 /* .renderer .ql-editor p {
