@@ -2,7 +2,14 @@ import Comments from "@/app/components/Comments";
 import CommentsInput from "@/app/components/CommentsInput";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
 import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/utils/authOptions";
+import { getServerSession } from "next-auth";
+import Link from "next/link";
 import React from "react";
+
+import "react-quill/dist/quill.snow.css";
+
+import { Pencil } from "@/app/components/icons";
 
 function getPost(id: string) {
   return prisma.post.findFirst({ where: { id }, include: { comments: true } });
@@ -19,11 +26,19 @@ export async function generateStaticParams() {
 }
 const PostPage = async ({ params }: { params: { id: string } }) => {
   const post = await getPost(params.id);
+  const session = await getServerSession(authOptions);
   if (!post) return <div>Post Not Found</div>;
 
   return (
     <div>
-      <h1 className="text-4xl mb-4 font-semibold">{post.title}</h1>
+      <div className="flex w-full justify-between items-center">
+        <h1 className="text-4xl mb-4 font-semibold">{post.title}</h1>
+        {session?.user?.id === post.authorId && (
+          <Link href={`/post/${post.id}/edit`}>
+            <Pencil />
+          </Link>
+        )}
+      </div>
       <MarkdownRenderer content={post.content} />
 
       <CommentsInput postId={post.id} />
