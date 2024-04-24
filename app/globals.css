@@ -52,6 +52,21 @@
   max-height: 215px;
 }
 
+.btn.primary {
+  background: black;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.btn.secondary {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 8px 16px;
+  
+}
 /* .renderer .ql-editor p {
  
 } */

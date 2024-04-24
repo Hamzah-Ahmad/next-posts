@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { LeftChevron, RightChevron } from "./icons";
 
 const Pagination = ({
   count,
@@ -23,22 +24,23 @@ const Pagination = ({
   }
 
   function moveToNextPage() {
-    handlePageChange(page + 1)
+    handlePageChange(page + 1);
   }
-  
+
   function moveToPrevPage() {
-    handlePageChange(page - 1)
+    handlePageChange(page - 1);
   }
 
   return (
-    <div className="mt-32 w-full flex justify-between">
-      {page > 1 ? (
-        <button onClick={moveToPrevPage}>Prev</button>
-      ) : (
-        <div />
-      )}
-      <div>Test</div>
-      {count > page * limit ? <button onClick={moveToNextPage}>Next</button> : <div />}
+    <div className="mt-32 flex justify-center gap-x-4 items-center">
+      <button onClick={moveToPrevPage} className="disabled:opacity-30" disabled={page <= 1}>
+        <LeftChevron />
+      </button>
+
+      <div>{page}</div>
+      <button onClick={moveToNextPage} className="disabled:opacity-30" disabled={count <= page * limit}>
+        <RightChevron />
+      </button>
     </div>
   );
 };
