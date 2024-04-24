@@ -3,6 +3,7 @@ import { Listbox } from "@headlessui/react";
 import classNames from "classnames";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { capitalizeFirstLetter } from "@/utils/helpers";
+import { FunnelIcon } from "@heroicons/react/24/outline";
 
 type Tag = {
   id: number;
@@ -34,11 +35,14 @@ export default function TagsFilter() {
 
   return (
     <Listbox value={selectedTags} onChange={setSelectedTags} multiple>
-      <Listbox.Button className="bg-base-100 text-white p-2 rounded-md w-full">
+      <Listbox.Button
+        className="bg-base-100 text-white p-2 rounded-md w-full flex
+            justify-center items-center gap-x-2"
+      >
         {/* {selectedPeople.map((person) => person.name).join(", ")} */}
-        Tags
+        <span>Tags</span> <FunnelIcon className="h-4" />
       </Listbox.Button>
-      <Listbox.Options className="border-2 pb-4">
+      <Listbox.Options className="border-2 pb-4 mt-2">
         <div className="flex w-full justify-end pr-4 mt-1">
           <button
             className="text-xs underline"

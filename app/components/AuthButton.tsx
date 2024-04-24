@@ -8,14 +8,14 @@ const AuthButton = () => {
     <div>
       {session ? (
         <button
-          className="text-white p-2 rounded-lg bg-neutral-950"
+          className="text-white p-2 rounded-lg bg-base-100"
           onClick={() => signOut()}
         >
           Sign Out
         </button>
       ) : (
         <button
-          className="text-white p-2 rounded-lg bg-neutral-950"
+          className="text-white p-2 rounded-lg bg-base-100"
           onClick={() => signIn()}
         >
           Sign In
