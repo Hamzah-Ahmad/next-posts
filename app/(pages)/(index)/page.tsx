@@ -8,12 +8,13 @@ import Pagination from "@/app/components/Pagination";
 export type PostsSearchParamsType = {
   page?: string;
   tags: string;
+  search?: string;
 };
 async function getAllPostsAndCount(
   searchParams: PostsSearchParamsType,
   postsPerPage = 2
 ): Promise<[Post[], number]> {
-  const { page, tags } = searchParams;
+  const { page, tags, search } = searchParams;
   const where: Prisma.PostWhereInput = {
     AND: [
       tags
@@ -21,6 +22,11 @@ async function getAllPostsAndCount(
             tags: {
               hasSome: tags.split(","),
             },
+          }
+        : {},
+      search
+        ? {
+            title: { search },
           }
         : {},
     ],
