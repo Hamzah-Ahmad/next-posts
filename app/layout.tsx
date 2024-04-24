@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthProvider from "./context/AuthProvider";
 import Header from "./components/Header";
-import cn from "classnames";
+import classNames from "classnames";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={classNames(inter.className, `bg-gray-50 text-base-100`)}>
         <AuthProvider>
           <Header />
           <div className="max-w-[1280px] m-auto mt-20">{children}</div>

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { LeftChevron, RightChevron } from "./icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const Pagination = ({
   count,
@@ -34,12 +34,12 @@ const Pagination = ({
   return (
     <div className="mt-32 flex justify-center gap-x-4 items-center">
       <button onClick={moveToPrevPage} className="disabled:opacity-30" disabled={page <= 1}>
-        <LeftChevron />
+        <ChevronLeftIcon className="h-6" />
       </button>
 
       <div>{page}</div>
       <button onClick={moveToNextPage} className="disabled:opacity-30" disabled={count <= page * limit}>
-        <RightChevron />
+        <ChevronRightIcon className="h-6" />
       </button>
     </div>
   );

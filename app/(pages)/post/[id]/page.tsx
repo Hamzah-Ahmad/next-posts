@@ -9,7 +9,7 @@ import React from "react";
 
 import "react-quill/dist/quill.snow.css";
 
-import { Pencil } from "@/app/components/icons";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 function getPost(id: string) {
   return prisma.post.findFirst({ where: { id }, include: { comments: true } });
@@ -35,7 +35,7 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
         <h1 className="text-4xl mb-4 font-semibold">{post.title}</h1>
         {session?.user?.id === post.authorId && (
           <Link href={`/post/${post.id}/edit`}>
-            <Pencil />
+            <PencilSquareIcon className="h-6"/>
           </Link>
         )}
       </div>
