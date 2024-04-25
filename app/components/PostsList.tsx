@@ -1,12 +1,13 @@
 import { Post } from "@prisma/client";
 import React from "react";
-import PostLink from "./PostLink";
+import PostCard from "./PostCard";
+import { PostWithDataType } from "../(pages)/posts/page";
 
-const PostList = ({ posts }: { posts: Post[] }) => {
+const PostList = ({ posts }: { posts: PostWithDataType[] }) => {
   return (
     <div>
       {posts.map((post) => (
-        <PostLink post={post} key={post.id} />
+        <PostCard post={post} key={post.id} />
       ))}
     </div>
   );

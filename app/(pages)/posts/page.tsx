@@ -5,6 +5,14 @@ import { Post, Prisma } from "@prisma/client";
 import PostList from "@/app/components/PostsList";
 import Pagination from "@/app/components/Pagination";
 
+export type PostWithDataType = {
+  author: {
+    name: string;
+  };
+  _count: {
+    comments: number;
+  };
+} & Post;
 export type PostsSearchParamsType = {
   page?: string;
   tags: string;
@@ -13,7 +21,7 @@ export type PostsSearchParamsType = {
 async function getAllPostsAndCount(
   searchParams: PostsSearchParamsType,
   postsPerPage = 2
-): Promise<[Post[], number]> {
+): Promise<[PostWithDataType[], number]> {
   const { page, tags, search } = searchParams;
   const where: Prisma.PostWhereInput = {
     AND: [
@@ -31,14 +39,27 @@ async function getAllPostsAndCount(
         : {},
     ],
   };
-  const postsQuery = prisma.post.findMany({
-    where: where,
-    orderBy: {
-      createdAt: "asc",
-    },
-    skip: ((page ? parseInt(page) : 1) - 1) * postsPerPage,
-    take: postsPerPage,
-  });
+  const postsQuery: Prisma.PrismaPromise<PostWithDataType[]> =
+    prisma.post.findMany({
+      where: where,
+      orderBy: {
+        createdAt: "asc",
+      },
+      skip: ((page ? parseInt(page) : 1) - 1) * postsPerPage,
+      take: postsPerPage,
+      include: {
+        author: {
+          select: {
+            name: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+    });
   const countQuery = prisma.post.count({ where });
 
   const [posts, count] = await Promise.all([postsQuery, countQuery]);
@@ -51,7 +72,7 @@ export default async function Home({
 }: {
   searchParams: PostsSearchParamsType;
 }) {
-  const postsPerPage = 4;
+  const postsPerPage = 3;
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const [posts, count] = await getAllPostsAndCount(searchParams, postsPerPage);
   if (!posts) notFound();
