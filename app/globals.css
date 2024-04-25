@@ -2,14 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .theme-custom {
   /* Name: custom color palette
      Author: Ilias Ism
      URL: https://gradient.page */
 
   /* CSS: .bg-gradient { background: var(--gradient) } */
-  --gradient: #091E3A;
+  --gradient: #091e3a;
   --background: 228 98.65% 98.26%;
   --foreground: 228 7.3% 0.52%;
 
@@ -65,8 +64,15 @@
   border: 1px solid #000;
   border-radius: 8px;
   padding: 8px 16px;
-  
 }
 /* .renderer .ql-editor p {
  
 } */
+
+.ellipses {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
