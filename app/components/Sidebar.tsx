@@ -26,7 +26,7 @@ const Sidebar = () => {
   return (
     <div className="p-4 pt-0">
       <form onSubmit={handleSearch} className="flex relative items-center  mb-4">
-        <input name="search" className="border-2 border-base-light rounded-md p-1 pl-2" />
+        <input name="search" className="border-2 border-base-light rounded-md p-1 pl-2 w-full md:w-auto" />
         <button className="absolute right-4">
           <MagnifyingGlassIcon className="w-4" />
         </button>

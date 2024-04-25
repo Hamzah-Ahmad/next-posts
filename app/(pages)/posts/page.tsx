@@ -51,12 +51,12 @@ export default async function Home({
 }: {
   searchParams: PostsSearchParamsType;
 }) {
-  const postsPerPage = 2;
+  const postsPerPage = 4;
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const [posts, count] = await getAllPostsAndCount(searchParams, postsPerPage);
   if (!posts) notFound();
   return (
-    <main className="w-full">
+    <main className="w-full px-4 flex flex-col justify-between h-custom">
       <PostList posts={posts} />
 
       <Pagination count={count} limit={postsPerPage} page={page} />
