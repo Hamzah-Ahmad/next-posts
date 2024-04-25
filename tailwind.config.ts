@@ -14,7 +14,7 @@ const config: Config = {
         "base-light": "#D5D4D8",
       },
       height: {
-        'custom': '576px',
+        'custom': '540px',
       }
     },
   },

@@ -42,11 +42,11 @@ const PostCard = ({ post }: { post: PostWithDataType }) => {
         </div>
         <div className="hidden md:flex items-center gap-x-1">
           <ChatBubbleOvalLeftEllipsisIcon className="h-4" />
-          <span className="text-sm">{post._count?.comments}</span>
+          <span className="text-sm font-medium">{post._count?.comments}</span>
         </div>
         <div className="hidden md:flex items-center gap-x-1">
-          <span className="text-sm">Updated At:</span>
-          <span className="text-sm">
+          <span className="text-sm">Last Update:</span>
+          <span className="text-sm font-semibold underline">
             {post.updatedAt?.getDate()}/{post.updatedAt?.getMonth()}/
             {post.updatedAt?.getUTCFullYear()}
           </span>

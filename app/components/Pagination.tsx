@@ -32,7 +32,7 @@ const Pagination = ({
   }
 
   return (
-    <div className="mt-32 flex justify-center gap-x-4 items-center">
+    <div className="flex justify-center gap-x-4 items-center">
       <button onClick={moveToPrevPage} className="disabled:opacity-30" disabled={page <= 1}>
         <ChevronLeftIcon className="h-6" />
       </button>
