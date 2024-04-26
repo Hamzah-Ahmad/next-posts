@@ -11,7 +11,6 @@ import { EditPostSchema, EditPostType } from "./schemas/EditPostSchema";
 
 export async function createPost(data: CreatePostType): Promise<
   | {
-      success: boolean;
       error:
         | string
         | ZodFormattedError<{ title: string; content: string }, string>;
@@ -20,12 +19,12 @@ export async function createPost(data: CreatePostType): Promise<
 > {
   const session = await getServerSession(authOptions);
   if (!session?.user.id) {
-    return { success: false, error: "Please login to create a post" };
+    return { error: "Please login to create a post" };
   }
   const parseResult = CreatePostSchema.safeParse(data); //Validating backend in addition to the RHF frontend form validation
 
   if (!parseResult.success) {
-    return { success: false, error: parseResult.error.format() };
+    return { error: parseResult.error.format() };
   }
   let newPostId = undefined;
   try {
@@ -34,7 +33,7 @@ export async function createPost(data: CreatePostType): Promise<
         title: data.title,
         content: data.content,
         authorId: session?.user.id,
-        tags: data.tags
+        tags: data.tags,
       },
     });
     newPostId = newPost.id;
@@ -44,7 +43,7 @@ export async function createPost(data: CreatePostType): Promise<
     // redirect(`/post/${newPost.id}`);
   } catch (err) {
     console.error(err);
-    return { success: false, error: "Something went wrong" };
+    return { error: "Something went wrong" };
   }
 
   redirect(`/post/${newPostId}`);
@@ -55,7 +54,6 @@ export async function editPost(
   data: EditPostType
 ): Promise<
   | {
-      success: boolean;
       error:
         | string
         | ZodFormattedError<{ title: string; content: string }, string>;
@@ -64,12 +62,12 @@ export async function editPost(
 > {
   const session = await getServerSession(authOptions);
   if (!session?.user.id) {
-    return { success: false, error: "Please login to create a post" };
+    return { error: "Please login to create a post" };
   }
   const parseResult = EditPostSchema.safeParse(data); //Validating backend in addition to the RHF frontend form validation
 
   if (!parseResult.success) {
-    return { success: false, error: parseResult.error.format() };
+    return { error: parseResult.error.format() };
   }
 
   try {
@@ -81,9 +79,9 @@ export async function editPost(
     });
   } catch (err: any) {
     if (err.code === "P2025") {
-      return { success: false, error: "Post not found" };
+      return { error: "Post not found" };
     }
-    return { success: false, error: "Something went wrong" };
+    return { error: "Something went wrong" };
   }
 
   redirect(`/post/${postId}`);
@@ -91,19 +89,24 @@ export async function editPost(
 
 export async function addComment(
   postId: any,
-  prevState: any,
+  _: any,
   formData: FormData
-) {
+): Promise<
+  | {
+      error: string;
+    }
+  | undefined
+> {
   const session = await getServerSession(authOptions);
   const commentText = formData.get("content");
   if (!commentText || typeof commentText !== "string") {
-    return { success: false, error: "Please login to create a post" };
+    return { error: "Please login to create a post" };
   }
   if (!session?.user.id) {
-    return { success: false, error: "Please login to create a post" };
+    return { error: "Please login to create a post" };
   }
   if (!postId) {
-    return { success: false, error: "Post Not Found" };
+    return { error: "Post Not Found" };
   }
 
   try {
@@ -122,8 +125,50 @@ export async function addComment(
     });
   } catch (err) {
     console.error(err);
-    return { success: false, error: "Something went wrong" };
+    return { error: "Something went wrong" };
   }
 
   revalidatePath(`/post/${postId}`);
+}
+
+export async function deleteComment(commentId: string): Promise<
+  | {
+      error: string;
+    }
+  | undefined
+> {
+  const session = await getServerSession(authOptions);
+  if (!session?.user.id) {
+    return { error: "Unauthorized" };
+  }
+
+  const comment = await prisma.comment.findUnique({
+    where: { id: commentId },
+    include: {
+      post: {
+        select: {
+          authorId: true,
+        },
+      },
+    },
+  });
+  if (!session?.user.id) {
+    return { error: "Comment not found" };
+  }
+
+  if (
+    comment?.commenterId !== session?.user?.id ||
+    comment.post?.authorId !== session?.user.id
+  ) {
+    return { error: "Unauthorized" };
+  }
+
+  try {
+    await prisma.comment.delete({ where: { id: commentId } });
+  } catch (err) {
+    console.error(err);
+    return { error: "Something went wrong" };
+  }
+
+  revalidatePath(`/post/${comment.postId}`);
 }

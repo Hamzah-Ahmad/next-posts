@@ -10,9 +10,29 @@ import React from "react";
 import "react-quill/dist/quill.snow.css";
 
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { Comment, Post } from "@prisma/client";
 
-function getPost(id: string) {
-  return prisma.post.findFirst({ where: { id }, include: { comments: true } });
+export type CommentsWithCommenterInfo = (Comment & {
+  commenter: { name: string; id: string };
+})[];
+type PostWithComments = ({ comments: CommentsWithCommenterInfo } & Post) | null;
+
+function getPost(id: string): Promise<PostWithComments | null> {
+  return prisma.post.findFirst({
+    where: { id },
+    include: {
+      comments: {
+        include: {
+          commenter: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+        },
+      },
+    },
+  });
 }
 
 export async function generateStaticParams() {
@@ -35,7 +55,7 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
         <h1 className="text-4xl mb-4 font-semibold">{post.title}</h1>
         {session?.user?.id === post.authorId && (
           <Link href={`/post/${post.id}/edit`}>
-            <PencilSquareIcon className="h-6"/>
+            <PencilSquareIcon className="h-6" />
           </Link>
         )}
       </div>
@@ -44,7 +64,10 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
       <CommentsInput postId={post.id} />
 
       <div className="mt-20" />
-      <Comments comments={post.comments} />
+      <Comments
+        comments={post.comments}
+        isPostAuthor={!!(session && post.authorId === session?.user.id)}
+      />
     </div>
   );
 };

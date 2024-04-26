@@ -30,13 +30,18 @@ export default function TagsInput({
       >
         {selectedTags.length > 0 ? (
           selectedTags.map((tag: string) => (
-            <span className="text-white rounded-md p-1 px-2  bg-base-100 flex gap-x-4 items-center cursor-default">
+            <span
+              key={tag}
+              className="text-white rounded-md p-1 px-2 bg-base-100 flex gap-x-4 items-center cursor-default"
+            >
               <small>{tag}</small>
               <button
                 className="text-xs"
                 onClick={(e) => {
                   e.stopPropagation();
-                  let temp = selectedTags.filter((filteredTag) => filteredTag != tag);
+                  let temp = selectedTags.filter(
+                    (filteredTag) => filteredTag != tag
+                  );
                   setSelectedTags(temp);
                 }}
               >
