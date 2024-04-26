@@ -34,6 +34,7 @@ export async function createPost(data: CreatePostType): Promise<
         title: data.title,
         content: data.content,
         authorId: session?.user.id,
+        tags: data.tags
       },
     });
     newPostId = newPost.id;

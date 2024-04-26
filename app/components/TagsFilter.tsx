@@ -4,29 +4,19 @@ import classNames from "classnames";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { capitalizeFirstLetter } from "@/utils/helpers";
 import { FunnelIcon } from "@heroicons/react/24/outline";
-
-type Tag = {
-  id: number;
-  name: string;
-};
-const tags = [
-  { id: 1, name: "coding" },
-  { id: 2, name: "entertainment" },
-  { id: 3, name: "technology" },
-  { id: 4, name: "news" },
-];
+import { TAGS_LIST } from "@/constants";
 
 export default function TagsFilter() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     if (selectedTags.length > 0) {
-      params.set("tags", selectedTags.map((tag) => tag.name).join(","));
+      params.set("tags", selectedTags.map((tag) => tag).join(","));
     } else {
       params.delete("tags");
     }
@@ -51,16 +41,16 @@ export default function TagsFilter() {
             Clear All
           </button>
         </div>
-        {tags.map((tag) => (
+        {TAGS_LIST.map((tag) => (
           <Listbox.Option
-            key={tag.id}
+            key={tag}
             value={tag}
             className={classNames(
               "py-2 pl-3 cursor-pointer hover:bg-base-light",
               selectedTags.includes(tag) && "bg-base-light"
             )}
           >
-            {capitalizeFirstLetter(tag.name)}
+            {capitalizeFirstLetter(tag)}
           </Listbox.Option>
         ))}
       </Listbox.Options>
