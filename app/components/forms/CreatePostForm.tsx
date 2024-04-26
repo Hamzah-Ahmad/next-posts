@@ -8,7 +8,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Editor } from "../Editor";
 import { createPost } from "@/app/_actions";
-import TagsInput from "../TagesInput";
+import TagsInput from "../TagsInput";
 
 const CreatePostForm = () => {
   const {

@@ -4,12 +4,19 @@ import classNames from "classnames";
 import { capitalizeFirstLetter } from "@/utils/helpers";
 import { TAGS_LIST } from "@/constants";
 
-export default function TagsFilter({
+type TagsInputType = {
+  selectedTags?: string[];
+  setSelectedTags: (tags: string[]) => void;
+  defaultValue?: string[];
+};
+export default function TagsInput({
   selectedTags = [],
   setSelectedTags,
-}: any) {
+  defaultValue = [],
+}: TagsInputType) {
   return (
     <Listbox
+      defaultValue={defaultValue}
       value={selectedTags}
       onChange={setSelectedTags}
       multiple
