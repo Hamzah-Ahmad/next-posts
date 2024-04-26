@@ -3,6 +3,7 @@ import { Listbox } from "@headlessui/react";
 import classNames from "classnames";
 import { capitalizeFirstLetter } from "@/utils/helpers";
 import { TAGS_LIST } from "@/constants";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 type TagsInputType = {
   selectedTags?: string[];
@@ -29,8 +30,18 @@ export default function TagsInput({
       >
         {selectedTags.length > 0 ? (
           selectedTags.map((tag: string) => (
-            <span className="text-white rounded-md p-1 px-2  bg-base-100">
-              {tag}
+            <span className="text-white rounded-md p-1 px-2  bg-base-100 flex gap-x-4 items-center cursor-default">
+              <small>{tag}</small>
+              <button
+                className="text-xs"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  let temp = selectedTags.filter((filteredTag) => filteredTag != tag);
+                  setSelectedTags(temp);
+                }}
+              >
+                <XMarkIcon className="h-4" />
+              </button>
             </span>
           ))
         ) : (
