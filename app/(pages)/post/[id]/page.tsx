@@ -50,9 +50,9 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
   if (!post) return <div>Post Not Found</div>;
 
   return (
-    <div>
-      <div className="flex w-full justify-between items-center">
-        <h1 className="text-4xl mb-4 font-semibold">{post.title}</h1>
+    <div className="px-4">
+      <div className="flex w-full justify-between items-start">
+        <h1 className="text-4xl mb-4 font-semibold max-w-6xl">{post.title}</h1>
         {session?.user?.id === post.authorId && (
           <Link href={`/post/${post.id}/edit`}>
             <PencilSquareIcon className="h-6" />
