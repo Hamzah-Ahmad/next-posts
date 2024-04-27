@@ -13,10 +13,6 @@ const config: Config = {
         "base-100": "#334155",
         "base-light": "#D5D4D8",
       },
-      height: {
-        'custom': '34rem',
-        'custom-mobile': '40rem',
-      }
     },
   },
 

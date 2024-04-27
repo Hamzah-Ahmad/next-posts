@@ -18,7 +18,8 @@ const FormButton = ({
       className={classNames(
         "bg-neutral-950 text-white p-2 rounded-lg",
         pending && `cursor-wait  opacity-40`,
-        disabled && `cursor-default`
+        disabled && `cursor-default`,
+        rest.className
       )}
     >
       {children}

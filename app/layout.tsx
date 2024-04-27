@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import AuthProvider from "./context/AuthProvider";
 import Header from "./components/Header";
 import classNames from "classnames";
+import { Toaster } from 'sonner'
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +26,7 @@ export default function RootLayout({
           <Header />
           <div className="max-w-[1280px] m-auto mt-20">{children}</div>
         </AuthProvider>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

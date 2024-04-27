@@ -77,7 +77,7 @@ export default async function Home({
   const [posts, count] = await getAllPostsAndCount(searchParams, postsPerPage);
   if (!posts) notFound();
   return (
-    <main className="w-full px-4 flex flex-col justify-between min-h-[635px] md:h-custom mb-4">
+    <main className="w-full px-4 flex flex-col justify-between min-h-[300px] md:min-h-[500px]">
       <PostList posts={posts} />
 
       <Pagination count={count} limit={postsPerPage} page={page} />

@@ -33,7 +33,7 @@ const EditPostForm = ({ post }: { post: Post }) => {
         <input
           {...register("title")}
           placeholder="Title"
-          className="mb-10 text-4xl w-full outline-0 text-slate-700"
+          className="mb-10 text-4xl w-full outline-0 text-slate-700 bg-gray-50"
           defaultValue={post.title}
         />
         <TagsInput
