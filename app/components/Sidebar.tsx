@@ -35,7 +35,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className=" pt-0">
+    <div className="pt-0 mb-4 md:mb-0 px-4">
       <form
         onSubmit={handleSearch}
         className="flex relative items-center  mb-4"
