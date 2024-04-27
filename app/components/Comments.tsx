@@ -5,6 +5,7 @@ import { authOptions } from "@/utils/authOptions";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { deleteComment } from "../_actions";
 import DeleteCommentButton from "./DeleteCommentButton";
+import { formatDate } from "@/utils/helpers";
 
 const Comments = async ({
   comments,
@@ -22,7 +23,10 @@ const Comments = async ({
           className="border-2 border-zinc-300 rounded-md p-3 w-full flex justify-between items-start"
         >
           <div>
-            <div className="font-bold mb-2">{comment.commenter?.name}</div>
+            <div className="flex items-center mb-2 gap-x-2">
+              <div className="font-bold">{comment.commenter?.name}</div>
+              <small className="opacity-40">{formatDate(comment.createdAt)}</small>
+            </div>
             <div>{comment.content}</div>
           </div>
           {session &&
