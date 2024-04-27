@@ -22,8 +22,13 @@ const CommentsInput = ({ postId }: { postId: string }) => {
     }
   }, [formState]);
   return (
-    <form ref={formRef} action={formAction}>
-      <input name="content" placeholder="Add Comment" />
+    <form ref={formRef} action={formAction} className="flex flex-col items-end gap-y-4">
+      <textarea
+        rows={3}
+        name="content"
+        placeholder="Add Comment"
+        className="border-base-light w-full border-2 resize-none rounded-md p-4"
+      />
       {/* <button>Submit</button> */}
       <FormButton>Submit</FormButton>
     </form>

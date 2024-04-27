@@ -5,6 +5,7 @@ import TagPill from "./TagPill";
 import { UserIcon } from "@heroicons/react/20/solid";
 import { PostWithDataType } from "../(pages)/posts/page";
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
+import { formatDate } from "@/utils/helpers";
 
 const PostCard = ({ post }: { post: PostWithDataType }) => {
   return (
@@ -14,7 +15,9 @@ const PostCard = ({ post }: { post: PostWithDataType }) => {
       className="block p-4 border-2 border-l-base-100 mb-10"
     >
       <div className="flex flex-col md:flex-row mt-2 md:mt-0 justify-between">
-        <h3 className="text-base-100 text-xl font-bold max-w-3xl ellipses">{post.title}</h3>
+        <h3 className="text-base-100 text-xl font-bold max-w-3xl ellipses">
+          {post.title}
+        </h3>
         <ul className="flex gap-x-2 mt-3 md:mt-0">
           {post.tags?.slice(0, 2)?.map((tag, i) => (
             <li className="list-none" key={tag + i}>
@@ -47,8 +50,7 @@ const PostCard = ({ post }: { post: PostWithDataType }) => {
         <div className="hidden md:flex items-center gap-x-1">
           <span className="text-sm">Last Update:</span>
           <span className="text-sm font-semibold underline">
-            {post.updatedAt?.getDate()}/{post.updatedAt?.getMonth()}/
-            {post.updatedAt?.getUTCFullYear()}
+            {formatDate(post.updatedAt)}
           </span>
         </div>
       </div>

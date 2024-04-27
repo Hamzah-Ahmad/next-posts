@@ -30,6 +30,9 @@ function getPost(id: string): Promise<PostWithComments | null> {
             },
           },
         },
+        orderBy: {
+          createdAt: "desc",
+        },
       },
     },
   });
@@ -60,10 +63,10 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
         )}
       </div>
       <MarkdownRenderer content={post.content} />
-
+        <div className="mt-10" />
       <CommentsInput postId={post.id} />
+      <h6 className="mb-6 text-xl">Comments</h6>
 
-      <div className="mt-20" />
       <Comments
         comments={post.comments}
         isPostAuthor={!!(session && post.authorId === session?.user.id)}

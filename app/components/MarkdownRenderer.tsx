@@ -6,7 +6,7 @@ type MarkdownRendererProps = {
 };
 const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
   return (
-    <div className="ql-editor !p-0 mt-6" dangerouslySetInnerHTML={{ __html: content }} />
+    <div className="ql-editor !p-0 mt-6 renderer" dangerouslySetInnerHTML={{ __html: content }} />
     // <DynamicQuill
     //   readOnly
     //   theme="bubble"
