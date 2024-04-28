@@ -155,7 +155,7 @@ const RegisterForm = () => {
 
       <div className="flex items-center justify-between">
         <button
-          className="bg-neutral-950 hover:bg-neutral-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+          className="bg-base-100 hover:bg-neutral-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline w-full"
           type="submit"
           disabled={isLoading}
         >
@@ -168,7 +168,7 @@ const RegisterForm = () => {
       <hr className="h-0.5 border-t-0 bg-neutral-950 opacity-100 dark:opacity-50 my-6" />
       <div className="flex items-center justify-between">
         <button
-          className="text-white p-2 rounded-lg bg-neutral-950 hover:bg-neutral-600 font-bold  px-4  focus:outline-none focus:shadow-outline w-full"
+          className="text-white p-2 rounded-md bg-base-100 hover:bg-neutral-600 font-bold  px-4  focus:outline-none focus:shadow-outline w-full"
           type="button"
           disabled={isLoading}
           onClick={() => signIn("google", { callbackUrl })}

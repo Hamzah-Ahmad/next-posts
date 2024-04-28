@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={classNames(inter.className, `bg-gray-50 text-base-100`)}>
         <AuthProvider>
           <Header />
-          <div className="max-w-[1280px] m-auto mt-20">{children}</div>
+          <div className="max-w-[1280px] m-auto mt-12">{children}</div>
         </AuthProvider>
         <Toaster richColors position="top-right" />
       </body>

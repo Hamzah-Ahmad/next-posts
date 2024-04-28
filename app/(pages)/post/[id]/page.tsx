@@ -9,7 +9,7 @@ import React from "react";
 
 import "react-quill/dist/quill.snow.css";
 
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { Comment, Post } from "@prisma/client";
 
 export type CommentsWithCommenterInfo = (Comment & {
@@ -54,6 +54,9 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="px-4">
+      <Link href="/">
+        <ArrowLeftIcon className="h-5 mb-4"/>
+      </Link>
       <div className="flex w-full justify-between items-start">
         <h1 className="text-4xl mb-4 font-semibold max-w-6xl">{post.title}</h1>
         {session?.user?.id === post.authorId && (

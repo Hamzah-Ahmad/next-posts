@@ -8,6 +8,7 @@ import { createPost, editPost } from "@/app/_actions";
 import { Post } from "@prisma/client";
 import TagsInput from "../TagsInput";
 import useTriggerFormError from "@/app/_hooks/useTriggerFormError";
+import { toast } from "sonner";
 
 const EditPostForm = ({ post }: { post: Post }) => {
   const {
@@ -38,7 +39,7 @@ const EditPostForm = ({ post }: { post: Post }) => {
     startTransition(async () => {
       const res = await editPost(post.id, data);
       if (res?.error) {
-        alert(res?.error || "Something went wron!!g");
+        toast.error(res?.error as string); // as string explanation increate post form
       }
     });
   };
