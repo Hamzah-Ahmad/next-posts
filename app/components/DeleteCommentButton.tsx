@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { deleteComment } from "@/app/_actions";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
 
 const DeleteCommentButton = ({ commentId }: { commentId: string }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,6 +11,7 @@ const DeleteCommentButton = ({ commentId }: { commentId: string }) => {
 
     const res = await deleteComment(commentId);
     if(res?.error) {
+      toast.error(res.error)
       setIsLoading(false);
     }
   }

@@ -10,6 +10,7 @@ import { Editor } from "../Editor";
 import { createPost } from "@/app/_actions";
 import TagsInput from "../TagsInput";
 import useTriggerFormError from "@/app/_hooks/useTriggerFormError";
+import { toast } from "sonner";
 
 const CreatePostForm = () => {
   const {
@@ -29,7 +30,8 @@ const CreatePostForm = () => {
     startTransition(async () => {
       const res = await createPost(data);
       if (res?.error) {
-        alert(res?.error || "Something went wrong");
+        // Without "as string", typescript was throwing an error because of the possibility og res.error being of type ZodError. However, Zod erros are already being handled by the custom hook above
+        toast.error(res?.error as string);
       }
     });
   };

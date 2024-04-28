@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // @ts-expect-error
 import { useFormState } from "react-dom";
 
 import { addComment } from "@/app/_actions";
-import FormButton from "./CommentSubmitButton";
+import { toast } from "sonner";
+import CommentSubmitButton from "./CommentSubmitButton";
 
 const CommentsInput = ({ postId }: { postId: string }) => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -13,24 +14,29 @@ const CommentsInput = ({ postId }: { postId: string }) => {
     addComment.bind(null, postId),
     null
   );
+  const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
     if (formState?.error) {
-      console.log(formState.error || "Something went wrong");
+      toast.error(formState.error || "Something went wrong");
     } else {
       formRef.current?.reset();
     }
   }, [formState]);
   return (
-    <form ref={formRef} action={formAction} className="flex flex-col items-end gap-y-4">
+    <form
+      ref={formRef}
+      action={formAction}
+      className="flex flex-col items-end gap-y-4"
+    >
       <textarea
         rows={3}
         name="content"
+        onChange={(e) => setCommentText(e.target?.value)}
         placeholder="Add Comment"
-        className="border-base-light w-full border-2 resize-none rounded-md p-4"
+        className="border-base-light w-full border-2 resize-none rounded-lg p-4"
       />
-      {/* <button>Submit</button> */}
-      <FormButton>Submit</FormButton>
+      <CommentSubmitButton disabled={!commentText}>Submit</CommentSubmitButton>
     </form>
   );
 };

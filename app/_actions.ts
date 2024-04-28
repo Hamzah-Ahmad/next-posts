@@ -100,7 +100,7 @@ export async function addComment(
   const session = await getServerSession(authOptions);
   const commentText = formData.get("content");
   if (!commentText || typeof commentText !== "string") {
-    return { error: "Please login to create a post" };
+    return { error: "Comment body cannot be empty" };
   }
   if (!session?.user.id) {
     return { error: "Please login to create a post" };

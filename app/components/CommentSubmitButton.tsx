@@ -18,11 +18,11 @@ const CommentSubmitButton = ({
       className={classNames(
         "bg-neutral-950 text-white p-2 rounded-lg",
         pending && `cursor-wait  opacity-40`,
-        disabled && `cursor-default`,
+        disabled && `cursor-default opacity-50`,
         rest.className
       )}
     >
-      {children} 
+      {children}
     </button>
   );
 };

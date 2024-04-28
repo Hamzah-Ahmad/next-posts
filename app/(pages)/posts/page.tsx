@@ -43,7 +43,7 @@ async function getAllPostsAndCount(
     prisma.post.findMany({
       where: where,
       orderBy: {
-        createdAt: "asc",
+        updatedAt: "desc",
       },
       skip: ((page ? parseInt(page) : 1) - 1) * postsPerPage,
       take: postsPerPage,

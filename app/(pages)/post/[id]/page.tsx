@@ -63,7 +63,7 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
         )}
       </div>
       <MarkdownRenderer content={post.content} />
-        <div className="mt-10" />
+      <div className="mt-10" />
       <CommentsInput postId={post.id} />
       <h6 className="mb-6 text-xl">Comments</h6>
 
