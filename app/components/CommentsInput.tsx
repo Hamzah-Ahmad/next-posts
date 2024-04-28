@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 
 import { addComment } from "@/app/_actions";
-import FormButton from "./FormButton";
+import FormButton from "./CommentSubmitButton";
 
 const CommentsInput = ({ postId }: { postId: string }) => {
   const formRef = useRef<HTMLFormElement>(null);

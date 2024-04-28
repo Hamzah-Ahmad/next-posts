@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes } from "react";
 // @ts-expect-error
 import { useFormStatus } from "react-dom";
 
-const FormButton = ({
+const CommentSubmitButton = ({
   children,
   type,
   disabled,
@@ -22,9 +22,9 @@ const FormButton = ({
         rest.className
       )}
     >
-      {children}
+      {children} 
     </button>
   );
 };
 
-export default FormButton;
+export default CommentSubmitButton;

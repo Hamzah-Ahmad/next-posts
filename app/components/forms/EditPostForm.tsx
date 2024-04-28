@@ -1,14 +1,13 @@
 "use client";
 import { EditPostSchema, EditPostType } from "@/app/schemas/EditPostSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
+import React, { useEffect, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Editor } from "../Editor";
 import { createPost, editPost } from "@/app/_actions";
 import { Post } from "@prisma/client";
 import TagsInput from "../TagsInput";
 import useTriggerFormError from "@/app/_hooks/useTriggerFormError";
-import FormButton from "../FormButton";
 
 const EditPostForm = ({ post }: { post: Post }) => {
   const {
@@ -22,6 +21,7 @@ const EditPostForm = ({ post }: { post: Post }) => {
     resolver: zodResolver(EditPostSchema),
   });
 
+  const [isPending, startTransition] = useTransition();
   useEffect(() => {
     setValue("content", post.content);
     setValue("tags", post.tags);
@@ -35,17 +35,19 @@ const EditPostForm = ({ post }: { post: Post }) => {
       });
       return;
     }
-    const res = await editPost(post.id, data);
-    if (res?.error) {
-      alert(res?.error || "Something went wron!!g");
-    }
+    startTransition(async () => {
+      const res = await editPost(post.id, data);
+      if (res?.error) {
+        alert(res?.error || "Something went wron!!g");
+      }
+    });
   };
 
   const selectedTags = watch("tags");
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
         <input
           {...register("title")}
           placeholder="Title"
@@ -62,7 +64,12 @@ const EditPostForm = ({ post }: { post: Post }) => {
           handleChange={(val: string) => setValue("content", val)}
           defaultValue={post.content}
         />
-        <FormButton className="mt-10">Submit</FormButton>
+        <button
+          className="mt-10 flex self-end text-lg disabled:opacity-40 disabled:cursor-wait bg-neutral-950 text-white p-2 rounded-lg"
+          disabled={isPending}
+        >
+          Submit
+        </button>
       </form>
     </>
   );

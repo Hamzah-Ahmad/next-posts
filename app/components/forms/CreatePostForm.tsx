@@ -4,12 +4,11 @@ import {
   CreatePostType,
 } from "@/app/schemas/CreatePostSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
+import React, { useEffect, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Editor } from "../Editor";
 import { createPost } from "@/app/_actions";
 import TagsInput from "../TagsInput";
-import FormButton from "../FormButton";
 import useTriggerFormError from "@/app/_hooks/useTriggerFormError";
 
 const CreatePostForm = () => {
@@ -23,21 +22,19 @@ const CreatePostForm = () => {
     resolver: zodResolver(CreatePostSchema),
   });
 
+  const [isPending, startTransition] = useTransition();
   useTriggerFormError(errors);
   const onSubmit: SubmitHandler<CreatePostType> = async (data) => {
     // Reference video for explanation of using RFH and Zod along with server actions: https://www.youtube.com/watch?v=R_Pj593TH_Q
-    const res = await createPost(data);
-    if (res?.error) {
-      alert(res?.error || "Something went wrong");
-    }
+    startTransition(async () => {
+      const res = await createPost(data);
+      if (res?.error) {
+        alert(res?.error || "Something went wrong");
+      }
+    });
   };
 
   const selectedTags = watch("tags");
-
-  useEffect(() => {
-    console.log(errors);
-    Object.values(errors)?.map((error) => console.log(error.message));
-  }, [errors]);
 
   return (
     <>
@@ -55,9 +52,12 @@ const CreatePostForm = () => {
         <div className="mt-10" />
         <Editor handleChange={(val: string) => setValue("content", val)} />
         <div className="mt-10" />
-        <FormButton className="flex self-end px-6 py-3 text-lg">
+        <button
+          className="flex self-end text-lg disabled:opacity-40 disabled:cursor-wait bg-neutral-950 text-white p-2 rounded-lg"
+          disabled={isPending}
+        >
           Submit
-        </FormButton>
+        </button>
       </form>
     </>
   );
