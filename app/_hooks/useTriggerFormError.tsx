@@ -9,8 +9,8 @@ const useTriggerFormError = (errors: FieldErrors<any> = {}) => {
     if (errorMessages.length > 0) {
       toast.error(
         <ul className="list-disc pl-4">
-          {errorMessages.map((msg) => (
-            <li>{msg?.toString()}</li>
+          {errorMessages.map((msg, i) => (
+            <li key={`${msg}+${i}`}>{msg?.toString()}</li>
           ))}
         </ul>
       );
