@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import React from "react";
+import React, { cache } from "react";
 
 import "react-quill/dist/quill.snow.css";
 
@@ -17,7 +17,7 @@ export type CommentsWithCommenterInfo = (Comment & {
 })[];
 type PostWithComments = ({ comments: CommentsWithCommenterInfo } & Post) | null;
 
-function getPost(id: string): Promise<PostWithComments | null> {
+const getPost = cache(async (id: string): Promise<PostWithComments | null> => {
   return prisma.post.findFirst({
     where: { id },
     include: {
@@ -36,7 +36,7 @@ function getPost(id: string): Promise<PostWithComments | null> {
       },
     },
   });
-}
+});
 
 export async function generateStaticParams() {
   const posts = await prisma.post.findMany({
@@ -47,6 +47,13 @@ export async function generateStaticParams() {
 
   return posts.map((post) => ({ id: post.id }));
 }
+
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const post = await getPost(params.id);
+  return {
+    title: post?.title || "Next Posts",
+  };
+}
 const PostPage = async ({ params }: { params: { id: string } }) => {
   const post = await getPost(params.id);
   const session = await getServerSession(authOptions);
@@ -55,7 +62,7 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="px-4">
       <Link href="/">
-        <ArrowLeftIcon className="h-5 mb-4"/>
+        <ArrowLeftIcon className="h-5 mb-4" />
       </Link>
       <div className="flex w-full justify-between items-start">
         <h1 className="text-4xl mb-4 font-semibold max-w-6xl">{post.title}</h1>
