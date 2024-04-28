@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 const useTriggerFormError = (errors: FieldErrors<any> = {}) => {
   useEffect(() => {
+    if (!Object.keys(errors)?.length) return;
     let errorMessages = Object.values(errors)?.map((error) => error?.message);
     if (errorMessages.length > 0) {
       toast.error(
@@ -14,8 +15,7 @@ const useTriggerFormError = (errors: FieldErrors<any> = {}) => {
         </ul>
       );
     }
-    console.log("Here");
-  });
+  }, [errors]);
 };
 
 export default useTriggerFormError;

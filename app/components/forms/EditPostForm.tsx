@@ -7,9 +7,18 @@ import { Editor } from "../Editor";
 import { createPost, editPost } from "@/app/_actions";
 import { Post } from "@prisma/client";
 import TagsInput from "../TagsInput";
+import useTriggerFormError from "@/app/_hooks/useTriggerFormError";
+import FormButton from "../FormButton";
 
 const EditPostForm = ({ post }: { post: Post }) => {
-  const { register, setValue, handleSubmit, watch } = useForm<EditPostType>({
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { errors },
+  } = useForm<EditPostType>({
     resolver: zodResolver(EditPostSchema),
   });
 
@@ -18,7 +27,14 @@ const EditPostForm = ({ post }: { post: Post }) => {
     setValue("tags", post.tags);
   }, [post.content, post.tags]);
 
+  useTriggerFormError(errors);
   const onSubmit: SubmitHandler<EditPostType> = async (data) => {
+    if (data.content?.replace(/<(.|\n)*?>/g, "") === "") {
+      setError("content", {
+        message: "Content body is required",
+      });
+      return;
+    }
     const res = await editPost(post.id, data);
     if (res?.error) {
       alert(res?.error || "Something went wron!!g");
@@ -46,7 +62,7 @@ const EditPostForm = ({ post }: { post: Post }) => {
           handleChange={(val: string) => setValue("content", val)}
           defaultValue={post.content}
         />
-        <button className="mt-10">Submit</button>
+        <FormButton className="mt-10">Submit</FormButton>
       </form>
     </>
   );
