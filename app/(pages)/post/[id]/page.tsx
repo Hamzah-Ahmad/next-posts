@@ -17,7 +17,7 @@ export type CommentsWithCommenterInfo = (Comment & {
 })[];
 type PostWithComments = ({ comments: CommentsWithCommenterInfo } & Post) | null;
 
-const getPost = cache(async (id: string): Promise<PostWithComments | null> => {
+function getPost(id: string): Promise<PostWithComments | null> {
   return prisma.post.findFirst({
     where: { id },
     include: {
@@ -36,17 +36,8 @@ const getPost = cache(async (id: string): Promise<PostWithComments | null> => {
       },
     },
   });
-});
-
-export async function generateStaticParams() {
-  const posts = await prisma.post.findMany({
-    select: {
-      id: true,
-    },
-  });
-
-  return posts.map((post) => ({ id: post.id }));
 }
+
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const post = await getPost(params.id);
