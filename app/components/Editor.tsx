@@ -27,7 +27,7 @@ export const Editor = ({ handleChange, defaultValue = "" }: EditorProps) => {
             { indent: "-1" },
             { indent: "+1" },
           ],
-          ["link", "image"],
+          ["link"],
           ["clean"],
         ],
       }}
