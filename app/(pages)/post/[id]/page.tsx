@@ -38,7 +38,6 @@ function getPost(id: string): Promise<PostWithComments | null> {
   });
 }
 
-
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const post = await getPost(params.id);
   return {
@@ -65,7 +64,7 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
       </div>
       <MarkdownRenderer content={post.content} />
       <div className="mt-10" />
-      <CommentsInput postId={post.id} />
+      {session?.user && <CommentsInput postId={post.id} />}
       <h6 className="mb-6 text-xl">Comments</h6>
 
       <Comments

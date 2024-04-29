@@ -62,8 +62,9 @@ export async function editPost(
 > {
   const session = await getServerSession(authOptions);
   if (!session?.user.id) {
-    return { error: "Please login to create a post" };
+    return { error: "Please login to edit a post" };
   }
+  
   const parseResult = EditPostSchema.safeParse(data); //Validating backend in addition to the RHF frontend form validation
 
   if (!parseResult.success) {
@@ -103,7 +104,7 @@ export async function addComment(
     return { error: "Comment body cannot be empty" };
   }
   if (!session?.user.id) {
-    return { error: "Please login to create a post" };
+    return { error: "Please login to add a comment" };
   }
   if (!postId) {
     return { error: "Post Not Found" };
