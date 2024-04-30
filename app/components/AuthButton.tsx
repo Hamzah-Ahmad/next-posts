@@ -12,14 +12,14 @@ const AuthButton = () => {
     <div>
       {session?.user ? (
         <div className="flex items-center gap-x-4">
-          <p className="text-sm">Signed in as {session.user?.name}</p>
+          <p className="text-sm underline">Signed in as {session.user?.name}</p>
           <button onClick={() => signOut()}>
             <ArrowRightEndOnRectangleIcon className="h-6" />
           </button>
         </div>
       ) : (
         <button
-          className="text-white p-2 rounded-lg bg-base-100"
+          className="text-sm underline"
           onClick={() => signIn()}
         >
           Sign In
