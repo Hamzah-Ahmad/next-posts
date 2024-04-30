@@ -65,7 +65,7 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
       </div>
       <div className="flex gap-x-2 gap-y-2 w-full flex-wrap">
         {post.tags?.map((tag) => (
-          <TagPill tag={tag} />
+          <TagPill tag={tag} key={tag} />
         ))}
       </div>
       <MarkdownRenderer content={post.content} />
