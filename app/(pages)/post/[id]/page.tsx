@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css";
 
 import { ArrowLeftIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { Comment, Post } from "@prisma/client";
+import TagPill from "@/app/components/TagPill";
 
 export type CommentsWithCommenterInfo = (Comment & {
   commenter: { name: string; id: string };
@@ -61,6 +62,11 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
             <PencilSquareIcon className="h-6" />
           </Link>
         )}
+      </div>
+      <div className="flex gap-x-2 gap-y-2 w-full flex-wrap">
+        {post.tags?.map((tag) => (
+          <TagPill tag={tag} />
+        ))}
       </div>
       <MarkdownRenderer content={post.content} />
       <div className="mt-10" />
