@@ -1,12 +1,22 @@
 
-# NextAuth.js Example
+# Next Posts
 
 ## About this project
 
-This is a Next.js auth template  [NextAuth.js](https://next-auth.js.org/)  library to add Credential and Google authentication to a  Next.js application.
-Technologies used:
-- Next13
--  NextAuth
+A blog type application built using Next 14 to familiarize with the framework's latest features including server components, and server actions and mutations.
+
+## Live Site
+https://next-posts-zeta.vercel.app/posts
+
+### Dummy user credentials for testing
+username: john@email.com
+
+password: userpass
+
+
+## Technologies used:
+- Next14
+- NextAuth
 - Prisma
 - Postgres
 - React Hook Form
@@ -34,9 +44,3 @@ To run your site locally, use:
 npm run dev
 
 ```
-
-### 5. Configuring for production
-
-You must set the NEXTAUTH_URL environment variable with the URL of your site, before deploying to production.
-
-e.g.  `NEXTAUTH_URL=https://example.com`
