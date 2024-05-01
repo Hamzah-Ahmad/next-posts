@@ -26,7 +26,7 @@ export default function TagsInput({
     >
       <Listbox.Button
         className="text-white p-2 rounded-md w-full flex
-             items-center gap-x-2 border-base-light border-2 h-12"
+             items-center gap-x-2 border-base-light border-2 min-h-12 flex-wrap gap-y-2"
       >
         {selectedTags.length > 0 ? (
           selectedTags.map((tag: string) => (
