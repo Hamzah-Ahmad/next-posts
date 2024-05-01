@@ -2,9 +2,9 @@
 import clsx from "clsx";
 import { z } from "zod";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import React, { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -34,6 +34,8 @@ export type RegisterType = z.infer<typeof RegisterSchema>;
 const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const {data: session, status} = useSession();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const {
@@ -77,7 +79,7 @@ const RegisterForm = () => {
       setIsLoading(false);
     }
   };
-
+  if(status != "loading" && session) router.replace("/");
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

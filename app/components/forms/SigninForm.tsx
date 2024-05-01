@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { z } from "zod";
 import Link from "next/link";
 import React, { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -28,6 +28,7 @@ type SigninType = z.infer<typeof SigninSchema>;
 const SigninForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const {data: session, status} = useSession();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
   const {
@@ -59,6 +60,7 @@ const SigninForm = () => {
     }
   };
 
+  if(status != "loading" && session) router.replace("/");
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96">
       <form onSubmit={handleSubmit(onSubmit)}>
