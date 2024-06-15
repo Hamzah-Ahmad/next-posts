@@ -39,7 +39,7 @@ const EditPostForm = ({ post }: { post: Post }) => {
     startTransition(async () => {
       const res = await editPost(post.id, data);
       if (res?.error) {
-        toast.error(res?.error as string); // as string explanation increate post form
+        toast.error(res?.error as string);
       }
     });
   };

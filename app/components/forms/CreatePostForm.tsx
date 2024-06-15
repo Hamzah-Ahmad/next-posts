@@ -26,11 +26,9 @@ const CreatePostForm = () => {
   const [isPending, startTransition] = useTransition();
   useTriggerFormError(errors);
   const onSubmit: SubmitHandler<CreatePostType> = async (data) => {
-    // Reference video for explanation of using RFH and Zod along with server actions: https://www.youtube.com/watch?v=R_Pj593TH_Q
     startTransition(async () => {
       const res = await createPost(data);
       if (res?.error) {
-        // Without "as string", typescript was throwing an error because of the possibility og res.error being of type ZodError. However, Zod erros are already being handled by the custom hook above
         toast.error(res?.error as string);
       }
     });
