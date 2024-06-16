@@ -106,6 +106,10 @@ export async function addComment(
   if (!session?.user.id) {
     return { error: "Please login to add a comment" };
   }
+
+  // Explanation:
+  // Error handling in Next.js server actions:
+  // https://www.youtube.com/shorts/sSctV-OzDnY
   if (!postId) {
     return { error: "Post Not Found" };
   }

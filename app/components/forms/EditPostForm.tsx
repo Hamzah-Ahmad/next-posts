@@ -30,6 +30,8 @@ const EditPostForm = ({ post }: { post: Post }) => {
 
   useTriggerFormError(errors);
   const onSubmit: SubmitHandler<EditPostType> = async (data) => {
+    // Explanation:
+    // Explanation comments have been added for reference in the onSubmit function in the CreatePostForm file.
     if (data.content?.replace(/<(.|\n)*?>/g, "") === "") {
       setError("content", {
         message: "Content body is required",
@@ -39,6 +41,8 @@ const EditPostForm = ({ post }: { post: Post }) => {
     startTransition(async () => {
       const res = await editPost(post.id, data);
       if (res?.error) {
+        // Explanation:
+        // Explanation of using `as string` is provided in CreaatePostForm.
         toast.error(res?.error as string);
       }
     });

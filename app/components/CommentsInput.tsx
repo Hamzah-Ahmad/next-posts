@@ -9,11 +9,29 @@ import CommentSubmitButton from "./CommentSubmitButton";
 
 const CommentsInput = ({ postId }: { postId: string }) => {
   const formRef = useRef<HTMLFormElement>(null);
-  // Using useFormState because we need to access return value from the action
+  // Explanation:
+  // Using useFormState because we need the formState for loading status, and the result.
+  // The result can also be achieved without using useFormStatus. But it is preferred to use the hooks. 
+  // More explanation below
   const [formState, formAction] = useFormState(
     addComment.bind(null, postId),
     null
   );
+
+  // Explanation:
+  // We can also submit the naive way using code similar to below. The `res` property does get the data back
+  // But it is not as clean.
+  // Also, the state change happens AFTER the submission is complete. So loading state UI is not updated correctly
+  //   <form
+  //   ref={formRef}
+  //   action={async(data) => {
+  //     setIsLoading(true);
+  //     const res = await addComment(postId, null, data);
+  //     console.log("res: ", res)
+  //     setIsLoading(false)
+  //   }}
+  // >
+
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
