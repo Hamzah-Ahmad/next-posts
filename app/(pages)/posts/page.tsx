@@ -15,7 +15,7 @@ export type PostWithDataType = {
 } & Post;
 export type PostsSearchParamsType = {
   page?: string;
-  tags: string;
+  tags?: string;
   search?: string;
 };
 async function getAllPostsAndCount(
