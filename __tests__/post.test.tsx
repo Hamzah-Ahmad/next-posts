@@ -3,6 +3,7 @@ import mockPrismaClient from "@/__mocks__/prisma";
 import PostPage from "@/app/(pages)/post/[id]/page";
 import Home from "@/app/(pages)/posts/page";
 import { render, screen } from "@testing-library/react";
+import userEvent from '@testing-library/user-event'
 
 // Explanation: References for a few issues and their possible solutions:
 // https://github.com/nextauthjs/next-auth/issues/4866#issuecomment-1295803393
@@ -43,11 +44,11 @@ jest.mock("@prisma/client", () => {
     PrismaClient: jest.fn().mockImplementation(() => mockPrismaClient),
   };
 });
-
+// Explanation: Mocking Comments component because it is a server component and was causing errors while testing the parent Post component
 jest.mock('../app/components/Comments', () => () => <div>Comments</div>);
 
 
-describe("Home Page", () => {
+describe("Post Page", () => {
   const allPosts = [
     {
       id: Math.random().toString(),
@@ -68,13 +69,17 @@ describe("Home Page", () => {
       tags: ["news"],
     },
   ];
-  it("Checks for presence of react post", async () => {
+  it("Checks submit button enable and disable", async () => {
+    userEvent.setup();
     mockPrismaClient.post.findFirst.mockResolvedValue(allPosts[0]);
     render(await PostPage({ params: {id: ""} }));
     const submitBtn = screen.getByText(/Submit/i);
     expect(submitBtn).toBeDefined();
-
-    expect(2+2).toBe(4)
+    expect(submitBtn).toBeDisabled();
+    const commentInput = screen.getByPlaceholderText(/Add Comment/);
+    expect(commentInput).toBeDefined();
+    await userEvent.type(commentInput, "Test content");
+    expect(submitBtn).toBeEnabled();
   });
 
 });
