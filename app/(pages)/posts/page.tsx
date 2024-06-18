@@ -15,7 +15,7 @@ export type PostWithDataType = {
 } & Post;
 export type PostsSearchParamsType = {
   page?: string;
-  tags: string;
+  tags?: string;
   search?: string;
 };
 async function getAllPostsAndCount(
@@ -75,6 +75,7 @@ export default async function Home({
   const postsPerPage = 3;
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const [posts, count] = await getAllPostsAndCount(searchParams, postsPerPage);
+  console.log("posts: ", posts)
   if (!posts) notFound();
   return (
     <main className="w-full px-4 flex flex-col justify-between min-h-[300px] md:min-h-[500px]">

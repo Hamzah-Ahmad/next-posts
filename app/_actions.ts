@@ -158,8 +158,8 @@ export async function deleteComment(commentId: string): Promise<
   }
 
   if (
-    comment?.commenterId !== session?.user?.id ||
-    comment.post?.authorId !== session?.user.id
+    comment?.commenterId !== session?.user?.id &&
+    comment?.post?.authorId !== session?.user.id
   ) {
     return { error: "Unauthorized" };
   }
